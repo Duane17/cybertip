@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet"
 import { Menu, Home, Eye, Info, Bug, BookOpen, Newspaper } from "lucide-react"
 
 export function Navbar() {
@@ -73,6 +73,9 @@ export function Navbar() {
             </SheetTrigger>
             <SheetContent side="right" className="w-80 bg-white font-mono">
               <SheetTitle className="sr-only">Mobile Navigation Menu</SheetTitle>
+              <SheetDescription className="sr-only">
+                Use this panel to navigate the website.
+              </SheetDescription>
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center space-x-3">
                   <img
