@@ -4,7 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
-import { Menu, Home, Eye, Info, Bug } from "lucide-react"
+import { Menu, Home, Eye, Info, Bug, BookOpen, Newspaper } from "lucide-react"
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -13,6 +13,8 @@ export function Navbar() {
     { href: "/", label: "Home", icon: Home },
     { href: "/report", label: "Report a Bug", icon: Bug },
     { href: "/reports", label: "View Reports", icon: Eye },
+    { href: "/resources", label: "Resources", icon: BookOpen },
+    { href: "/news", label: "News", icon: Newspaper },
     { href: "/about", label: "About", icon: Info },
   ]
 
@@ -39,10 +41,10 @@ export function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="flex items-center space-x-2 px-4 py-2 rounded-xl text-gray-600 hover:text-[#1ED3B6] hover:bg-[#1ED3B6]/5 transition-all duration-300 group"
+                className="flex items-center space-x-2 px-3 py-1.5 rounded-xl text-sm text-gray-600 hover:text-[#1ED3B6] hover:bg-[#1ED3B6]/5 transition-all duration-300 group"
               >
-                <item.icon className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
-                <span className="font-medium">{item.label}</span>
+                <item.icon className="w-3.5 h-3.5 group-hover:scale-110 transition-transform duration-300" />
+                <span className="font-medium text-sm">{item.label}</span>
               </Link>
             ))}
           </div>

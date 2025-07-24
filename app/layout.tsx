@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { JetBrains_Mono } from "next/font/google"
 import "./globals.css"
+import { ScrollToTop } from "@/components/scroll-to-top"
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -26,7 +27,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${jetbrainsMono.variable} font-mono`}>{children}</body>
+      <body className={`${jetbrainsMono.variable} font-mono`}>
+        {children}
+        <ScrollToTop />
+      </body>
     </html>
   )
 }
