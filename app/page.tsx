@@ -76,19 +76,24 @@ export default function Component() {
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4 animate-slide-in-up animation-delay-400">
-                <Button
-                  size="lg"
-                  className="bg-[#1ED3B6] hover:bg-[#1ED3B6]/90 text-white rounded-xl px-8 py-6 text-lg font-medium transform hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-[#1ED3B6]/25"
-                >
-                  Report a Bug
-                </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="border-[#007BFF] text-[#007BFF] hover:bg-[#007BFF]/10 rounded-xl px-8 py-6 text-lg font-medium bg-white/10 backdrop-blur-sm transition-all duration-300 hover:scale-105"
-                >
-                  Learn How It Works
-                </Button>
+                <Link href="/report">
+                  <Button
+                    size="lg"
+                    className="bg-[#1ED3B6] hover:bg-[#1ED3B6]/90 text-white rounded-xl px-8 py-6 text-lg font-medium transform hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-[#1ED3B6]/25"
+                  >
+                    Report a Bug
+                  </Button>
+                </Link>
+
+                <Link href="/about">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="border-[#007BFF] text-[#007BFF] hover:bg-[#007BFF]/10 rounded-xl px-8 py-6 text-lg font-medium bg-white/10 backdrop-blur-sm transition-all duration-300 hover:scale-105"
+                  >
+                    Learn How It Works
+                  </Button>
+                </Link>
               </div>
             </div>
             <div className="flex justify-center animate-fade-in-right">
@@ -104,46 +109,6 @@ export default function Component() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Problem + Solution Section */}
-      <section className="w-full py-16 md:py-24 bg-white">
-        <div className="container px-4 md:px-6 mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Why CyberTip Malawi?</h2>
-          </div>
-          <div className="grid md:grid-cols-2 gap-12 lg:gap-16">
-            <Card className="rounded-2xl border-2 border-red-100 bg-red-50/50">
-              <CardContent className="p-8">
-                <div className="space-y-6">
-                  <div className="w-16 h-16 bg-red-100 rounded-2xl flex items-center justify-center">
-                    <Users className="w-8 h-8 text-red-600" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-red-800">The Problem</h3>
-                  <div className="space-y-4 text-gray-700">
-                    <p className="text-lg">"Right now, there's no proper way to report website bugs in Malawi."</p>
-                    <p className="text-lg">"This leads to unfixed security holes and more cybercrime."</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="rounded-2xl border-2 border-[#1ED3B6]/20 bg-[#1ED3B6]/5">
-              <CardContent className="p-8">
-                <div className="space-y-6">
-                  <div className="w-16 h-16 bg-[#1ED3B6]/20 rounded-2xl flex items-center justify-center">
-                    <Shield className="w-8 h-8 text-[#1ED3B6]" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-[#1ED3B6]">The Solution</h3>
-                  <div className="space-y-4 text-gray-700">
-                    <p className="text-lg">"CyberTip connects ethical hackers to institutions securely."</p>
-                    <p className="text-lg">"It helps fix bugs early and reduce digital risk."</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </section>

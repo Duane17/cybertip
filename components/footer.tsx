@@ -15,11 +15,14 @@ export function Footer() {
             <Link href="/report" className="text-gray-600 hover:text-[#1ED3B6] transition-colors">
               Report a Bug
             </Link>
-            <Link href="#" className="text-gray-600 hover:text-[#1ED3B6] transition-colors">
+            <Link href="/reports" className="text-gray-600 hover:text-[#1ED3B6] transition-colors">
               View Reports
             </Link>
-            <Link href="#" className="text-gray-600 hover:text-[#1ED3B6] transition-colors">
-              Contact
+            <Link href="/news" className="text-gray-600 hover:text-[#1ED3B6] transition-colors">
+              News
+            </Link>
+            <Link href="/resources" className="text-gray-600 hover:text-[#1ED3B6] transition-colors">
+              Resources
             </Link>
           </nav>
 
