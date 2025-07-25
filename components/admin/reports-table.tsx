@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { sampleReports } from "@/app/data/reports";
 import { StatusBadge } from "@/components/admin/status-badge";
 import {
   Select,
@@ -10,17 +9,24 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-
-type Report = (typeof sampleReports)[number];
+import { Report, useUpdateReportStatus } from "@/hooks/use-reports";
 
 export function ReportsTable({ reports }: { reports: Report[] }) {
   const [localReports, setLocalReports] = useState<Report[]>(reports);
+  const { mutate: updateStatus } = useUpdateReportStatus();
 
   const handleStatusChange = (reportId: number, newStatus: Report["status"]) => {
-    const updated = localReports.map((r) =>
-      r.id === reportId ? { ...r, status: newStatus } : r
+    updateStatus(
+      { id: reportId, status: newStatus },
+      {
+        onSuccess: () => {
+          const updated = localReports.map((r) =>
+            r.id === reportId ? { ...r, status: newStatus } : r
+          );
+          setLocalReports(updated);
+        },
+      }
     );
-    setLocalReports(updated);
   };
 
   return (

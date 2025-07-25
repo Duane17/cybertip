@@ -3,9 +3,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Globe, Bug, Calendar } from "lucide-react"
-import { sampleReports } from "@/app/data/reports"
-
-type Report = (typeof sampleReports)[number]
+import { Report } from "@/hooks/use-reports";
 
 interface ReportMetaCardProps {
   report: Report

@@ -1,11 +1,14 @@
 "use client";
 
 import { ReportsTable } from "@/components/admin/reports-table";
-import { sampleReports } from "@/app/data/reports";
 import { PageTransition } from "@/components/page-transition";
 import { AdminLayout } from "@/components/admin/layout/admin-layout";
+import { useReports } from "@/hooks/use-reports";
+import { LoadingScreen } from "@/components/admin/layout/loading-screen";
 
 export default function AdminReportsPage() {
+  const { data: reports = [], isLoading, isError } = useReports();
+
   return (
     <AdminLayout>
       <PageTransition>
@@ -15,7 +18,13 @@ export default function AdminReportsPage() {
             <p className="text-gray-600">Manage and track reported security issues.</p>
           </div>
 
-          <ReportsTable reports={sampleReports} />
+          {isLoading ? (
+            <LoadingScreen message="Loading reports..." />
+          ) : isError ? (
+            <p className="text-sm text-red-600">Failed to load reports.</p>
+          ) : (
+            <ReportsTable reports={reports} />
+          )}
         </main>
       </PageTransition>
     </AdminLayout>

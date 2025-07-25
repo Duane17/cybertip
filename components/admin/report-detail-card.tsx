@@ -5,9 +5,7 @@ import { ArrowRight } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { StatusBadge } from "@/components/admin/status-badge"
-import { sampleReports } from "@/app/data/reports"
-
-type Report = (typeof sampleReports)[number]
+import type { Report } from "@/hooks/use-reports"
 
 interface ReportDetailCardProps {
   report: Report

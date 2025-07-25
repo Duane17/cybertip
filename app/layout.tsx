@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 import { ScrollToTop } from "@/components/scroll-to-top"
+import QueryProvider from "@/components/query-provider"
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
     "A secure platform where local developers and ethical hackers can safely report security flaws in banks, telecoms, schools, and government systems.",
   generator: "v0.dev",
   icons: {
-    icon: "/logo.svg", // relative to the public folder
+    icon: "/logo.svg",
   },
 }
 
@@ -28,8 +29,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${jetbrainsMono.variable} font-mono`}>
-        {children}
-        <ScrollToTop />
+        <QueryProvider>                                       
+          {children}
+          <ScrollToTop />
+        </QueryProvider>
       </body>
     </html>
   )

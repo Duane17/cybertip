@@ -1,99 +1,34 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { ArrowRight, Calendar, Globe, Shield, ChevronLeft, ChevronRight, Heart } from "lucide-react"
-import Link from "next/link"
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
+import { useState, useMemo } from "react";
+import { format } from "date-fns";
+import {
+  ArrowRight,
+  Calendar,
+  Globe,
+  Shield,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 
-// Sample report data
-const sampleReports = [
-  {
-    id: 1,
-    website: "malawibank.mw",
-    bugType: "SQL Injection",
-    reportedDate: "January 15, 2025",
-    status: "resolved" as const,
-    description:
-      "Critical SQL injection vulnerability found in login form allowing unauthorized database access and potential data breach.",
-  },
-  {
-    id: 2,
-    website: "tnm.co.mw",
-    bugType: "Cross-Site Scripting (XSS)",
-    reportedDate: "January 12, 2025",
-    status: "in-review" as const,
-    description: "Stored XSS vulnerability in customer portal comments section could allow malicious script execution.",
-  },
-  {
-    id: 3,
-    website: "airtel.mw",
-    bugType: "Broken Authentication",
-    reportedDate: "January 10, 2025",
-    status: "open" as const,
-    description:
-      "Weak session management allows session hijacking and unauthorized account access through predictable tokens.",
-  },
-  {
-    id: 4,
-    website: "unima.ac.mw",
-    bugType: "Insecure Direct Object Reference",
-    reportedDate: "January 8, 2025",
-    status: "resolved" as const,
-    description:
-      "Student records accessible by manipulating URL parameters, exposing sensitive academic and personal information.",
-  },
-  {
-    id: 5,
-    website: "malawi.gov.mw",
-    bugType: "Cross-Site Request Forgery",
-    reportedDate: "January 5, 2025",
-    status: "in-review" as const,
-    description:
-      "CSRF vulnerability in admin panel allows unauthorized actions to be performed on behalf of authenticated users.",
-  },
-  {
-    id: 6,
-    website: "standardbank.co.mw",
-    bugType: "File Upload Vulnerability",
-    reportedDate: "January 3, 2025",
-    status: "open" as const,
-    description: "Unrestricted file upload in document submission form could allow malicious file execution on server.",
-  },
-  {
-    id: 7,
-    website: "mzuni.ac.mw",
-    bugType: "Information Disclosure",
-    reportedDate: "December 28, 2024",
-    status: "resolved" as const,
-    description:
-      "Sensitive configuration files and database credentials exposed through misconfigured web server directory listing.",
-  },
-  {
-    id: 8,
-    website: "nbm.mw",
-    bugType: "Broken Access Control",
-    reportedDate: "December 25, 2024",
-    status: "in-review" as const,
-    description:
-      "Privilege escalation vulnerability allows regular users to access administrative functions and sensitive data.",
-  },
-  {
-    id: 9,
-    website: "escom.mw",
-    reportedDate: "December 22, 2024",
-    bugType: "Security Misconfiguration",
-    status: "open" as const,
-    description:
-      "Default credentials and exposed admin interfaces create multiple attack vectors for unauthorized system access.",
-  },
-]
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
+import Link from "next/link";
+
+import { useReports } from "@/hooks/use-reports";
+import { LoadingScreen } from "@/components/loading-screen";
 
 const statusConfig = {
-  open: { label: "Open", color: "bg-red-500", textColor: "text-red-700", bgColor: "bg-red-50", icon: "❌" },
+  open: {
+    label: "Open",
+    color: "bg-red-500",
+    textColor: "text-red-700",
+    bgColor: "bg-red-50",
+    icon: "❌",
+  },
   "in-review": {
     label: "In Review",
     color: "bg-orange-500",
@@ -108,36 +43,42 @@ const statusConfig = {
     bgColor: "bg-green-50",
     icon: "✅",
   },
-}
+};
 
-const filterOptions = ["All", "Open", "In Review", "Resolved"]
+const filterOptions = ["All", "Open", "In Review", "Resolved"] as const;
 
 export default function ViewReportsPage() {
-  const [activeFilter, setActiveFilter] = useState("All")
-  const [currentPage, setCurrentPage] = useState(1)
-  const reportsPerPage = 6
+  const [activeFilter, setActiveFilter] = useState<(typeof filterOptions)[number]>("All");
+  const [currentPage, setCurrentPage] = useState(1);
+  const reportsPerPage = 6;
 
-  const filteredReports = sampleReports.filter((report) => {
-    if (activeFilter === "All") return true
-    return statusConfig[report.status].label === activeFilter
-  })
+  const { data: reports = [], isLoading, isError } = useReports();
 
-  const totalPages = Math.ceil(filteredReports.length / reportsPerPage)
-  const startIndex = (currentPage - 1) * reportsPerPage
-  const currentReports = filteredReports.slice(startIndex, startIndex + reportsPerPage)
+  const filteredReports = useMemo(() => {
+    if (activeFilter === "All") return reports;
+    return reports.filter((r) => statusConfig[r.status].label === activeFilter);
+  }, [reports, activeFilter]);
 
-  const handleFilterChange = (filter: string) => {
-    setActiveFilter(filter)
-    setCurrentPage(1)
+  const totalPages = Math.ceil(filteredReports.length / reportsPerPage);
+  const currentReports = filteredReports.slice(
+    (currentPage - 1) * reportsPerPage,
+    currentPage * reportsPerPage
+  );
+
+  const handleFilterChange = (filter: (typeof filterOptions)[number]) => {
+    setActiveFilter(filter);
+    setCurrentPage(1);
+  };
+
+  if (isLoading) {
+    return <LoadingScreen message="Loading reports..." />;
   }
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-[#1A1A1A] font-mono animate-page-fade-in">
       <Navbar />
 
-      {/* Page Header */}
       <section className="relative w-full py-16 md:py-20 overflow-hidden">
-        {/* Background Pattern with Overlay */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-br from-[#1ED3B6]/5 via-[#F8FAFC] to-[#007BFF]/5" />
           <div
@@ -153,7 +94,6 @@ export default function ViewReportsPage() {
           />
         </div>
 
-        {/* Shield Watermark */}
         <div className="absolute inset-0 z-10 flex items-center justify-center">
           <Shield className="w-96 h-96 text-[#1ED3B6]/5 animate-pulse-slow" />
         </div>
@@ -167,7 +107,6 @@ export default function ViewReportsPage() {
               These are the most recent security issues reported by our ethical hacker community.
             </p>
 
-            {/* Filter Bar */}
             <div className="flex flex-wrap justify-center gap-3 mt-8 animate-fade-in-up animation-delay-400">
               {filterOptions.map((filter) => (
                 <Button
@@ -188,11 +127,12 @@ export default function ViewReportsPage() {
         </div>
       </section>
 
-      {/* Reports Grid */}
       <div className="container px-4 md:px-6 mx-auto py-8">
+        {isError && <p className="text-center text-red-500">Failed to load reports.</p>}
+
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {currentReports.map((report, index) => {
-            const status = statusConfig[report.status]
+            const status = statusConfig[report.status];
             return (
               <Card
                 key={report.id}
@@ -219,7 +159,7 @@ export default function ViewReportsPage() {
                 <CardContent className="space-y-4">
                   <div className="flex items-center space-x-2 text-sm text-gray-500">
                     <Calendar className="w-4 h-4" />
-                    <span>{report.reportedDate}</span>
+                    <span>{format(new Date(report.reportedDate), "MMMM d, yyyy")}</span>
                   </div>
                   <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">{report.description}</p>
                   <Button
@@ -234,11 +174,10 @@ export default function ViewReportsPage() {
                   </Button>
                 </CardContent>
               </Card>
-            )
+            );
           })}
         </div>
 
-        {/* Pagination */}
         {totalPages > 1 && (
           <div className="flex items-center justify-center space-x-4 mt-12 animate-fade-in-up">
             <Button
@@ -280,7 +219,6 @@ export default function ViewReportsPage() {
           </div>
         )}
 
-        {/* Back to Home Button */}
         <div className="text-center mt-12 animate-fade-in-up">
           <Button
             asChild
@@ -292,8 +230,7 @@ export default function ViewReportsPage() {
         </div>
       </div>
 
-      {/* Footer */}
       <Footer />
     </div>
-  )
+  );
 }

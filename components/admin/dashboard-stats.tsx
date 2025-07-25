@@ -1,9 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { sampleReports } from "@/app/data/reports";
-
-type Report = (typeof sampleReports)[number];
+import type { Report } from "@/hooks/use-reports"
 
 interface DashboardStatsProps {
   reports: Report[];
